@@ -1,7 +1,7 @@
 package ir.ac.sbu.net.dao;
 
 import com.github.benmanes.caffeine.cache.Cache;
-import ir.ac.sbu.net.entity.Slave;
+import ir.ac.sbu.net.common.entity.Slave;
 
 import java.util.*;
 

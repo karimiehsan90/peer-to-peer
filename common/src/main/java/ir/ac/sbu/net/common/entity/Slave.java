@@ -1,4 +1,4 @@
-package ir.ac.sbu.net.entity;
+package ir.ac.sbu.net.common.entity;
 
 import java.util.List;
 import java.util.Objects;

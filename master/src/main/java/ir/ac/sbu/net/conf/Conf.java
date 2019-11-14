@@ -1,10 +1,10 @@
 package ir.ac.sbu.net.conf;
 
-import ir.ac.sbu.net.exception.ConfigurationException;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import ir.ac.sbu.net.common.exception.ConfigurationException;
 
 public class Conf {
     private int registerPort;

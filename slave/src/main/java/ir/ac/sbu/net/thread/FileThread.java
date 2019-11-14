@@ -1,19 +1,17 @@
 package ir.ac.sbu.net.thread;
 
-import ir.ac.sbu.net.dao.DAO;
-import ir.ac.sbu.net.common.entity.Slave;
+import ir.ac.sbu.net.conf.Conf;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Set;
 
-public class SearchThread implements Runnable {
+public class FileThread implements Runnable {
     private Socket socket;
-    private DAO dao;
+    private Conf conf;
 
-    public SearchThread(Socket socket, DAO dao) {
+    public FileThread(Socket socket, Conf conf) {
         this.socket = socket;
-        this.dao = dao;
+        this.conf = conf;
     }
 
     @Override
@@ -22,33 +20,27 @@ public class SearchThread implements Runnable {
         PrintWriter out = null;
         BufferedOutputStream dataOut = null;
         try {
+            OutputStream outputStream = socket.getOutputStream();
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            out = new PrintWriter(socket.getOutputStream());
-            dataOut = new BufferedOutputStream(socket.getOutputStream());
+            out = new PrintWriter(outputStream);
+            dataOut = new BufferedOutputStream(outputStream);
             String line;
-            String query = null;
+            String download = null;
             while (((line = reader.readLine()) != null) && !line.isEmpty()) {
-                if (line.startsWith("QUERY: ")) {
-                    query = line.substring("QUERY: ".length());
+                if (line.startsWith("DOWNLOAD: ")) {
+                    download = line.substring("DOWNLOAD: ".length());
                 }
             }
-            if (query == null || query.isEmpty()) {
+            if (download == null || download.isEmpty()) {
                 out.println("HTTP/1.1 403 Unauthorized");
                 out.println();
                 out.println("Unauthorized");
             } else {
-                Set<Slave> slaves = dao.search(query);
-                if (slaves != null && slaves.size() > 0) {
-                    out.println("HTTP/1.1 200 OK");
-                    out.println();
-                    for (Slave slave : slaves) {
-                        out.println(slave.getIp() + " " + slave.getPort());
-                    }
-                }
-                else {
-                    out.println("HTTP/1.1 404 Not found");
-                    out.println();
-                    out.println("Not fount");
+                InputStream in = new FileInputStream(conf.getFilesPath() + "/" + download);
+                int count;
+                byte[] buffer = new byte[conf.getBufferSize()];
+                while ((count = in.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, count);
                 }
             }
         } catch (Exception e) {

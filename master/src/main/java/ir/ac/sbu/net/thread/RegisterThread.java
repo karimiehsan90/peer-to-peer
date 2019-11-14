@@ -1,7 +1,7 @@
 package ir.ac.sbu.net.thread;
 
 import ir.ac.sbu.net.dao.DAO;
-import ir.ac.sbu.net.entity.Slave;
+import ir.ac.sbu.net.common.entity.Slave;
 
 import java.io.*;
 import java.net.Socket;

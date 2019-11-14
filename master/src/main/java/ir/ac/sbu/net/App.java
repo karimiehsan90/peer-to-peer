@@ -5,7 +5,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import ir.ac.sbu.net.conf.Conf;
 import ir.ac.sbu.net.dao.DAO;
-import ir.ac.sbu.net.entity.Slave;
+import ir.ac.sbu.net.common.entity.Slave;
 import ir.ac.sbu.net.thread.ServerAcceptThread;
 import ir.ac.sbu.net.thread.ServerSearchThread;
 
