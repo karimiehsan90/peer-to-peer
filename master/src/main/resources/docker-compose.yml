@@ -1,0 +1,15 @@
+version: "3.3"
+services:
+  master:
+    image: net-master:1.0.0
+    depends_on:
+      - redis
+    ports:
+      - 2000:2000
+      - 2001:2001
+  redis:
+    image: grokzen/redis-cluster:5.0.5
+    ports:
+      - 6379:7000
+    volumes:
+      - /home/ehsan/redis:/redis-data
